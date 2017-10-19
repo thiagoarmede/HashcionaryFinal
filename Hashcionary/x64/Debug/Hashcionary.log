@@ -1,0 +1,16 @@
+﻿  Moc'ing Hashcionary.h...
+  moc_Hashcionary.cpp
+  Hashcionary.cpp
+  main.cpp
+  Gerando Código...
+c:\users\thiag\source\repos\hashcionary\hashcionary\main.cpp(154): warning C4715: 'insereArquivo': nem todos os caminhos de controle retornam um valor
+c:\users\thiag\source\repos\hashcionary\hashcionary\main.cpp(83): warning C4700: variável local não inicializada 'aux' usada
+c:\users\thiag\source\repos\hashcionary\hashcionary\main.cpp(119): warning C4700: variável local não inicializada 'feito' usada
+c:\users\thiag\source\repos\hashcionary\hashcionary\main.cpp(203): warning C4715: 'buscaRegistro': nem todos os caminhos de controle retornam um valor
+c:\users\thiag\source\repos\hashcionary\hashcionary\main.cpp(123): warning C4700: variável local não inicializada 'aux2' usada
+c:\users\thiag\source\repos\hashcionary\hashcionary\main.cpp(139): warning C4700: variável local não inicializada 'aux3' usada
+c:\users\thiag\source\repos\hashcionary\hashcionary\main.cpp(174): warning C4700: variável local não inicializada 'aux' usada
+c:\users\thiag\source\repos\hashcionary\hashcionary\main.cpp(213): warning C4700: variável local não inicializada 'retorno' usada
+c:\users\thiag\source\repos\hashcionary\hashcionary\main.cpp(226): warning C4700: variável local não inicializada 'eliminar' usada
+  Hashcionary.vcxproj -> C:\Users\thiag\source\repos\Hashcionary\x64\Debug\Hashcionary.exe
+  Hashcionary.vcxproj -> C:\Users\thiag\source\repos\Hashcionary\x64\Debug\Hashcionary.pdb (Full PDB)
