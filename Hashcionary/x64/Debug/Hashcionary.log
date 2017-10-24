@@ -1,3 +1,3 @@
-﻿  Hashcionary.cpp
+﻿  JanelaInsercao.cpp
 c:\users\thiag\source\repos\hashcionary\hashcionary\Hashing.h(14): warning C4091: 'static ': ignorado à esquerda de 'Hashing' quando nenhuma variável é declarada
   Hashcionary.vcxproj -> C:\Users\thiag\source\repos\Hashcionary\x64\Debug\Hashcionary.exe

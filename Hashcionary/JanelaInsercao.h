@@ -18,7 +18,7 @@ public:
 	QString getPalavra();
 	QString getSignificado();
 	//funções para inserção da palavra
-	int defineInsercao(Palavra *, FILE *);
+	int defineInsercao(Palavra *, FILE *, int *);
 public slots:
 	void inserePalavra();
 private:

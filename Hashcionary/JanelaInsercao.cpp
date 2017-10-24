@@ -24,33 +24,41 @@ QString JanelaInsercao::getSignificado() {
 	return ui.InsereMostraTexto->toPlainText();
 }
 
-//Funções para inserção da palavra
+////////////////////////////////////////////////////////
+////////////Funções para inserção da palavra////////////
+////////////////////////////////////////////////////////
 
-int JanelaInsercao::defineInsercao(Palavra* pal, FILE *fp) {
+int JanelaInsercao::defineInsercao(Palavra* pal, FILE *fp, int *count) {
 	Hashing *h = new Hashing();
 	int pos1 = h->funcaoHash1(pal);
 	int pos2;
 	int contador;
 	Palavra *aux = new Palavra();
 
+	/*
+	Função retornará -3 caso o arquivo não exista ou não esteja aberto.
+	Função retornará -2 caso a tabela esteja cheia.
+	Função retornará -1 caso o elemento ja exista na tabela
+	*/
+
 	if (!fp) {
 		return -3; //tabela inexistente, arquivo invalido
 	}
 
+	//leitura do arquivo após o primeiro hashing.
+
 	fseek(fp, pos1 * sizeof(Palavra), SEEK_SET);
 	fread(aux, sizeof(Palavra), 1, fp);
 
-	//Hashing Duplo
+	//consulta se posição está vazia para inserção
+
 	if (aux->getExistente() != true) {
 		fseek(fp, -sizeof(Palavra), SEEK_CUR);
 		fwrite(pal, sizeof(Palavra), 1, fp);
 		return pos1;
 	}
-	else {
-		pos2 = pos1 + h->funcaoHash2(pal);
-		if (pos2 >= 97) {
-			pos2 = pos2 - 96;
-		}
+	else {		//Segundo hashing caso a primeira posição não esteja vazia
+		pos2 = (pos1 + h->funcaoHash2(pal)) % TAM_TABELA;
 		contador = 2;
 
 		fseek(fp, pos2 * sizeof(Palavra), SEEK_SET);
@@ -61,16 +69,42 @@ int JanelaInsercao::defineInsercao(Palavra* pal, FILE *fp) {
 				return -2;
 			if (aux->getChave() == pal->getChave())
 				return -1;
-			pos2 += h->funcaoHash2(pal);
-			if (pos2 >= 97) {
-				pos2 = pos2 - 96;
-			}
+
+			pos2 = (pos2 + h->funcaoHash2(pal)) % TAM_TABELA;
+		
 			fseek(fp, pos2 * sizeof(Palavra), SEEK_SET);
 			fread(aux, sizeof(Palavra), 1, fp);
 			contador++;
 		}
 	}
 	//Método de Brent
+	*count = contador;
+	return pos2;
+}
+
+void JanelaInsercao::inserePalavra(){
+	Palavra *palavraAInserir = new Palavra(this->getPalavra().toStdString(), this->getSignificado().toStdString());
+	FILE *fd1;
+	int count;
+
+	fd1 = fopen("Tabela.bin", "rb+");
+
+	int posicao = this->defineInsercao(palavraAInserir, fd1, &count);
+
+	if (posicao < 0) {
+		std::cout << "problema na insercao" << endl;
+		return;
+	}
+
+	std::cout << posicao;
+
+	fseek(fd1, posicao * sizeof(Palavra), SEEK_SET);
+	fwrite(palavraAInserir, sizeof(Palavra), 1, fd1);
+
+	///////////////////////////////////////////////////////////
+	//////////////////////Método de Brent//////////////////////
+	///////////////////////////////////////////////////////////
+
 	int i = 1, j = 1;
 	bool feito = false;
 	Palavra *aux2, *aux3;
@@ -79,7 +113,7 @@ int JanelaInsercao::defineInsercao(Palavra* pal, FILE *fp) {
 	aux2 = new Palavra();
 	aux3 = new Palavra();
 
-	while (i + j < contador && !feito) {
+	while (i + j < count && !feito) {
 		//lendo posição i
 		if (i == 1) {
 			fseek(fp, pos1 * sizeof(Palavra), SEEK_SET);
@@ -119,26 +153,6 @@ int JanelaInsercao::defineInsercao(Palavra* pal, FILE *fp) {
 			}
 		}
 	}
-
-	return posaux2;
-}
-
-void JanelaInsercao::inserePalavra(){
-	Palavra *palavraAInserir = new Palavra(this->getPalavra().toStdString(), this->getSignificado().toStdString());
-	FILE *fd1;
-	fd1 = fopen("Tabela.bin", "rb+");
-
-	int posicao = this->defineInsercao(palavraAInserir, fd1);
-
-	if (posicao < 0) {
-		std::cout << "problema na insercao" << endl;
-		return;
-	}
-
-	std::cout << posicao;
-
-	fseek(fd1, posicao * sizeof(Palavra), SEEK_SET);
-	fwrite(palavraAInserir, sizeof(Palavra), 1, fd1);
 
 	delete(palavraAInserir);
 	fclose(fd1);
