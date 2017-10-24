@@ -1,6 +1,8 @@
 #pragma once
 #include <iostream>
 #include <string>
+#define TAM
+
 
 using namespace std;
 

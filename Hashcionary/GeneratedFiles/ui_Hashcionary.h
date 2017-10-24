@@ -17,6 +17,7 @@
 #include <QtWidgets/QLabel>
 #include <QtWidgets/QLineEdit>
 #include <QtWidgets/QMainWindow>
+#include <QtWidgets/QMenu>
 #include <QtWidgets/QMenuBar>
 #include <QtWidgets/QPushButton>
 #include <QtWidgets/QTextBrowser>
@@ -27,21 +28,33 @@ QT_BEGIN_NAMESPACE
 class Ui_HashcionaryClass
 {
 public:
-    QAction *actionAtiva;
+    QAction *actionInserir_palavra;
+    QAction *actionExcluir_palavra;
+    QAction *actionSair;
+    QAction *actionListar_dicionario;
     QWidget *centralWidget;
     QLineEdit *linhaBusca;
     QPushButton *botaoBuscar;
     QLabel *label;
     QTextBrowser *browserSignificado;
+    QPushButton *pushButton;
     QMenuBar *menuBar;
+    QMenu *menuArquivo;
+    QMenu *menuSobre;
 
     void setupUi(QMainWindow *HashcionaryClass)
     {
         if (HashcionaryClass->objectName().isEmpty())
             HashcionaryClass->setObjectName(QStringLiteral("HashcionaryClass"));
-        HashcionaryClass->resize(380, 331);
-        actionAtiva = new QAction(HashcionaryClass);
-        actionAtiva->setObjectName(QStringLiteral("actionAtiva"));
+        HashcionaryClass->resize(389, 365);
+        actionInserir_palavra = new QAction(HashcionaryClass);
+        actionInserir_palavra->setObjectName(QStringLiteral("actionInserir_palavra"));
+        actionExcluir_palavra = new QAction(HashcionaryClass);
+        actionExcluir_palavra->setObjectName(QStringLiteral("actionExcluir_palavra"));
+        actionSair = new QAction(HashcionaryClass);
+        actionSair->setObjectName(QStringLiteral("actionSair"));
+        actionListar_dicionario = new QAction(HashcionaryClass);
+        actionListar_dicionario->setObjectName(QStringLiteral("actionListar_dicionario"));
         centralWidget = new QWidget(HashcionaryClass);
         centralWidget->setObjectName(QStringLiteral("centralWidget"));
         linhaBusca = new QLineEdit(centralWidget);
@@ -49,7 +62,7 @@ public:
         linhaBusca->setGeometry(QRect(40, 50, 161, 21));
         botaoBuscar = new QPushButton(centralWidget);
         botaoBuscar->setObjectName(QStringLiteral("botaoBuscar"));
-        botaoBuscar->setGeometry(QRect(260, 50, 75, 23));
+        botaoBuscar->setGeometry(QRect(300, 50, 75, 23));
         label = new QLabel(centralWidget);
         label->setObjectName(QStringLiteral("label"));
         label->setGeometry(QRect(120, 10, 161, 21));
@@ -62,26 +75,46 @@ public:
         browserSignificado = new QTextBrowser(centralWidget);
         browserSignificado->setObjectName(QStringLiteral("browserSignificado"));
         browserSignificado->setGeometry(QRect(40, 90, 301, 201));
+        pushButton = new QPushButton(centralWidget);
+        pushButton->setObjectName(QStringLiteral("pushButton"));
+        pushButton->setGeometry(QRect(300, 300, 71, 31));
         HashcionaryClass->setCentralWidget(centralWidget);
         menuBar = new QMenuBar(HashcionaryClass);
         menuBar->setObjectName(QStringLiteral("menuBar"));
-        menuBar->setGeometry(QRect(0, 0, 380, 21));
+        menuBar->setGeometry(QRect(0, 0, 389, 21));
+        menuArquivo = new QMenu(menuBar);
+        menuArquivo->setObjectName(QStringLiteral("menuArquivo"));
+        menuSobre = new QMenu(menuBar);
+        menuSobre->setObjectName(QStringLiteral("menuSobre"));
         HashcionaryClass->setMenuBar(menuBar);
 
+        menuBar->addAction(menuArquivo->menuAction());
+        menuBar->addAction(menuSobre->menuAction());
+        menuArquivo->addAction(actionInserir_palavra);
+        menuArquivo->addAction(actionExcluir_palavra);
+        menuArquivo->addAction(actionListar_dicionario);
+        menuArquivo->addSeparator();
+        menuArquivo->addAction(actionSair);
+
         retranslateUi(HashcionaryClass);
-        QObject::connect(botaoBuscar, SIGNAL(clicked()), linhaBusca, SLOT(update()));
 
         QMetaObject::connectSlotsByName(HashcionaryClass);
     } // setupUi
 
     void retranslateUi(QMainWindow *HashcionaryClass)
     {
-        HashcionaryClass->setWindowTitle(QApplication::translate("HashcionaryClass", "Hashcionary", Q_NULLPTR));
-        actionAtiva->setText(QApplication::translate("HashcionaryClass", "ativa", Q_NULLPTR));
+        HashcionaryClass->setWindowTitle(QApplication::translate("HashcionaryClass", "Hashcion\303\241rio", Q_NULLPTR));
+        actionInserir_palavra->setText(QApplication::translate("HashcionaryClass", "Inserir palavra", Q_NULLPTR));
+        actionExcluir_palavra->setText(QApplication::translate("HashcionaryClass", "Excluir palavra", Q_NULLPTR));
+        actionSair->setText(QApplication::translate("HashcionaryClass", "Sair", Q_NULLPTR));
+        actionListar_dicionario->setText(QApplication::translate("HashcionaryClass", "Listar dicion\303\241rio", Q_NULLPTR));
         linhaBusca->setPlaceholderText(QApplication::translate("HashcionaryClass", "Digite a palavra.", Q_NULLPTR));
         botaoBuscar->setText(QApplication::translate("HashcionaryClass", "Buscar", Q_NULLPTR));
         label->setText(QApplication::translate("HashcionaryClass", "Hashcion\303\241rio", Q_NULLPTR));
         browserSignificado->setPlaceholderText(QApplication::translate("HashcionaryClass", "Significado.", Q_NULLPTR));
+        pushButton->setText(QApplication::translate("HashcionaryClass", "Sair", Q_NULLPTR));
+        menuArquivo->setTitle(QApplication::translate("HashcionaryClass", "Arquivo", Q_NULLPTR));
+        menuSobre->setTitle(QApplication::translate("HashcionaryClass", "Sobre", Q_NULLPTR));
     } // retranslateUi
 
 };

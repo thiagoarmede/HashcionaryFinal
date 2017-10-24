@@ -2,6 +2,8 @@
 
 #include <QtWidgets/QMainWindow>
 #include "ui_Hashcionary.h"
+#include "JanelaInsercao.h"
+#include "JanelaLista.h"
 
 class Hashcionary : public QMainWindow
 {
@@ -9,8 +11,15 @@ class Hashcionary : public QMainWindow
 
 public:
 	Hashcionary(QWidget *parent = Q_NULLPTR);
+	void setJanelaInsercao(JanelaInsercao *);
+	void setJanelaLista(JanelaLista *);
+public slots:
 	void on_botaoBuscar_clicked();
-
+	void abreInsercao();
+	void abreLista();
+	void saiPrograma();
 private:
 	Ui::HashcionaryClass ui;
+	JanelaInsercao *janelaInsercao;
+	JanelaLista *janelaLista;
 };
