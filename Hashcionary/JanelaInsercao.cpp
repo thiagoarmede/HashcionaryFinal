@@ -77,19 +77,24 @@ int JanelaInsercao::defineInsercao(Palavra* pal, FILE *fp, int *count) {
 			contador++;
 		}
 	}
-	//Método de Brent
 	*count = contador;
 	return pos2;
 }
 
 void JanelaInsercao::inserePalavra(){
 	Palavra *palavraAInserir = new Palavra(this->getPalavra().toStdString(), this->getSignificado().toStdString());
-	FILE *fd1;
-	int count;
+	FILE *fp;
+	int pos1, pos2, deslocamento, count;
+	Hashing *h = new Hashing();
 
-	fd1 = fopen("Tabela.bin", "rb+");
 
-	int posicao = this->defineInsercao(palavraAInserir, fd1, &count);
+	pos1 = h->funcaoHash1(palavraAInserir);
+	deslocamento = h->funcaoHash2(palavraAInserir);
+	pos2 = pos1;
+
+	fp = fopen("Tabela.bin", "rb+");
+
+	int posicao = this->defineInsercao(palavraAInserir, fp, &count);
 
 	if (posicao < 0) {
 		std::cout << "problema na insercao" << endl;
@@ -98,62 +103,86 @@ void JanelaInsercao::inserePalavra(){
 
 	std::cout << posicao;
 
-	fseek(fd1, posicao * sizeof(Palavra), SEEK_SET);
-	fwrite(palavraAInserir, sizeof(Palavra), 1, fd1);
+	fseek(fp, posicao * sizeof(Palavra), SEEK_SET);
+	fwrite(palavraAInserir, sizeof(Palavra), 1, fp);
 
 	///////////////////////////////////////////////////////////
 	//////////////////////Método de Brent//////////////////////
 	///////////////////////////////////////////////////////////
 
 	int i = 1, j = 1;
-	bool feito = false;
 	Palavra *aux2, *aux3;
-	int posaux1, posaux2;
+	int posaux, posaux2, deslocamentoAux;
 
 	aux2 = new Palavra();
 	aux3 = new Palavra();
 
-	while (i + j < count && !feito) {
-		//lendo posição i
-		if (i == 1) {
+	while (i + j < count) {
+		/////////escolhendo o termo baseado no i.
+		if (i == 1) {		//lendo primeiro elemento após o hashing.
 			fseek(fp, pos1 * sizeof(Palavra), SEEK_SET);
 			fread(aux2, sizeof(Palavra), 1, fp);
-		}
-		else {
-			fseek(fp, pos1 + (j * sizeof(Palavra)), SEEK_SET);
+		}else{		//percorrendo arquivo e encontrando o elemento de número i.
+			fseek(fp, pos1 * sizeof(Palavra), SEEK_SET);
+			for (int k = 1; k < i; k++) {
+					pos2 = (pos2 + deslocamento) % TAM_TABELA;
+					fseek(fp, pos2 * sizeof(Palavra), SEEK_SET);
+			}
+			//fseek(fp, pos1 *(j * sizeof(Palavra)), SEEK_SET);
 			fread(aux2, sizeof(Palavra), 1, fp);
 		}
+		
+		//após ler o elemento de numero i, definir o seu deslocamento.
+		posaux = h->funcaoHash1(aux2);
+		deslocamentoAux = h->funcaoHash2(aux2);
+		posaux2 = posaux;
 
-		fseek(fp, -sizeof(Palavra), SEEK_CUR);
+		///////////deslocando o termo baseado em j
 
+		//fseek(fp, -sizeof(Palavra), SEEK_CUR);
+		
+		if (j == 1) {
+			fseek(fp, posaux * sizeof(Palavra), SEEK_SET);
+			fread(aux3, sizeof(Palavra), 1, fp);
+			if (aux3->getExistente() != true) {
+				fseek(fp, -sizeof(Palavra), SEEK_SET);
+				fwrite(aux2, sizeof(Palavra), 1, fp);
+
+			}
+
+
+
+		}
+
+		/*
 		if (j == 1)
-			posaux2 = h->funcaoHash1(aux2);
+			posaux = h->funcaoHash1(aux2);
 		else
-			posaux2 += (j * h->funcaoHash2(aux2));
-		if (posaux2 >= 97)
-			posaux2 = posaux2 - 96;
+			posaux += (j * h->funcaoHash2(aux2));
+		if (posaux >= 97)
+			posaux = posaux - 96;
+		*/
 
-		fseek(fp, posaux2 * sizeof(Palavra), SEEK_SET);
+		fseek(fp, posaux * sizeof(Palavra), SEEK_SET);
 		fread(aux3, sizeof(Palavra), 1, fp);
 
 		if (aux3->getExistente() == false) {
 			fseek(fp, -sizeof(Palavra), SEEK_CUR);
 			fwrite(aux2, sizeof(Palavra), 1, fp);
-			fseek(fp, posaux2 * sizeof(Palavra), SEEK_SET);
-			fwrite(pal, sizeof(Palavra), 1, fp);
-			return posaux2;
+			fseek(fp, posaux * sizeof(Palavra), SEEK_SET);
+			fwrite(palavraAInserir, sizeof(Palavra), 1, fp);
+			break;
 		}
 		else {
-			if (i + j == (contador - 1)) {
+			if (i + j == (count - 1)) {
 				i++;
 				j = 1;
-			}
-			else {
+			} else {
 				j++;
 			}
 		}
 	}
 
 	delete(palavraAInserir);
-	fclose(fd1);
+	fclose(fp);
 }

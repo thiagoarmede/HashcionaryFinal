@@ -69,6 +69,15 @@
     <ClCompile Include="JanelaLista.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="GeneratedFiles\Debug\moc_JanelaElimina.cpp">
+      <Filter>Generated Files</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Release\moc_JanelaElimina.cpp">
+      <Filter>Generated Files</Filter>
+    </ClCompile>
+    <ClCompile Include="JanelaElimina.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <CustomBuild Include="Hashcionary.h">
@@ -92,6 +101,12 @@
     <CustomBuild Include="JanelaLista.ui">
       <Filter>Form Files</Filter>
     </CustomBuild>
+    <CustomBuild Include="JanelaElimina.h">
+      <Filter>Header Files</Filter>
+    </CustomBuild>
+    <CustomBuild Include="JanelaElimina.ui">
+      <Filter>Form Files</Filter>
+    </CustomBuild>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="GeneratedFiles\ui_Hashcionary.h">
@@ -110,6 +125,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="GeneratedFiles\ui_JanelaLista.h">
+      <Filter>Generated Files</Filter>
+    </ClInclude>
+    <ClInclude Include="GeneratedFiles\ui_JanelaElimina.h">
       <Filter>Generated Files</Filter>
     </ClInclude>
   </ItemGroup>
