@@ -16,8 +16,9 @@ public:
 	Hashcionary(QWidget *parent = Q_NULLPTR);
 	void setJanelaInsercao(JanelaInsercao *);
 	void setJanelaLista(JanelaLista *);
-	void recuperaRegistro();
 	void popupAchou();
+	void popupNaoAchou();
+	void popupArquivoNaoEncontrado();
 	popup1 *popup;
 public slots:
 	void on_botaoBuscar_clicked();
@@ -25,6 +26,7 @@ public slots:
 	void abreLista();
 	void saiPrograma();
 	void abreExclusao();
+	void recuperaRegistro();
 private:
 	Ui::HashcionaryClass ui;
 	JanelaInsercao *janelaInsercao;

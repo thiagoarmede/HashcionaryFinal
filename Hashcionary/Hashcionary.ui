@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>389</width>
-    <height>365</height>
+    <width>396</width>
+    <height>394</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -72,7 +72,7 @@
     <property name="geometry">
      <rect>
       <x>40</x>
-      <y>90</y>
+      <y>120</y>
       <width>301</width>
       <height>201</height>
      </rect>
@@ -84,8 +84,8 @@
    <widget class="QPushButton" name="pushButton">
     <property name="geometry">
      <rect>
-      <x>300</x>
-      <y>300</y>
+      <x>310</x>
+      <y>330</y>
       <width>71</width>
       <height>31</height>
      </rect>
@@ -94,13 +94,57 @@
      <string>Sair</string>
     </property>
    </widget>
+   <widget class="QLabel" name="labelContador">
+    <property name="geometry">
+     <rect>
+      <x>160</x>
+      <y>80</y>
+      <width>141</width>
+      <height>20</height>
+     </rect>
+    </property>
+    <property name="font">
+     <font>
+      <pointsize>10</pointsize>
+      <weight>75</weight>
+      <bold>true</bold>
+     </font>
+    </property>
+    <property name="text">
+     <string>Contador de buscas: </string>
+    </property>
+   </widget>
+   <widget class="QLCDNumber" name="lcdContador">
+    <property name="geometry">
+     <rect>
+      <x>310</x>
+      <y>80</y>
+      <width>64</width>
+      <height>23</height>
+     </rect>
+    </property>
+    <property name="font">
+     <font>
+      <pointsize>12</pointsize>
+     </font>
+    </property>
+    <property name="frameShape">
+     <enum>QFrame::Box</enum>
+    </property>
+    <property name="frameShadow">
+     <enum>QFrame::Plain</enum>
+    </property>
+    <property name="segmentStyle">
+     <enum>QLCDNumber::Flat</enum>
+    </property>
+   </widget>
   </widget>
   <widget class="QMenuBar" name="menuBar">
    <property name="geometry">
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>389</width>
+     <width>396</width>
      <height>21</height>
     </rect>
    </property>

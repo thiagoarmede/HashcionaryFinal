@@ -88,7 +88,7 @@ void JanelaInsercao::inserePalavra(){
 	FILE *fp;
 	int pos1, pos2, deslocamento, count;
 	Hashing *h = new Hashing();
-	
+
 
 	pos1 = h->funcaoHash1(palavraAInserir);
 	deslocamento = h->funcaoHash2(palavraAInserir);
@@ -169,8 +169,8 @@ void JanelaInsercao::inserePalavra(){
 
 
 	}
+
 	mostraPopupInseriu();
-	delete(palavraAInserir);
 	fclose(fp);
 }
 

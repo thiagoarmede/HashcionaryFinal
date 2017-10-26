@@ -14,6 +14,7 @@
 #include <QtWidgets/QApplication>
 #include <QtWidgets/QButtonGroup>
 #include <QtWidgets/QHeaderView>
+#include <QtWidgets/QLCDNumber>
 #include <QtWidgets/QLabel>
 #include <QtWidgets/QLineEdit>
 #include <QtWidgets/QMainWindow>
@@ -38,6 +39,8 @@ public:
     QLabel *label;
     QTextBrowser *browserSignificado;
     QPushButton *pushButton;
+    QLabel *labelContador;
+    QLCDNumber *lcdContador;
     QMenuBar *menuBar;
     QMenu *menuArquivo;
     QMenu *menuSobre;
@@ -46,7 +49,7 @@ public:
     {
         if (HashcionaryClass->objectName().isEmpty())
             HashcionaryClass->setObjectName(QStringLiteral("HashcionaryClass"));
-        HashcionaryClass->resize(389, 365);
+        HashcionaryClass->resize(396, 394);
         QIcon icon;
         icon.addFile(QStringLiteral("../dictionary1600.png"), QSize(), QIcon::Normal, QIcon::Off);
         HashcionaryClass->setWindowIcon(icon);
@@ -78,14 +81,31 @@ public:
         label->setFont(font);
         browserSignificado = new QTextBrowser(centralWidget);
         browserSignificado->setObjectName(QStringLiteral("browserSignificado"));
-        browserSignificado->setGeometry(QRect(40, 90, 301, 201));
+        browserSignificado->setGeometry(QRect(40, 120, 301, 201));
         pushButton = new QPushButton(centralWidget);
         pushButton->setObjectName(QStringLiteral("pushButton"));
-        pushButton->setGeometry(QRect(300, 300, 71, 31));
+        pushButton->setGeometry(QRect(310, 330, 71, 31));
+        labelContador = new QLabel(centralWidget);
+        labelContador->setObjectName(QStringLiteral("labelContador"));
+        labelContador->setGeometry(QRect(160, 80, 141, 20));
+        QFont font1;
+        font1.setPointSize(10);
+        font1.setBold(true);
+        font1.setWeight(75);
+        labelContador->setFont(font1);
+        lcdContador = new QLCDNumber(centralWidget);
+        lcdContador->setObjectName(QStringLiteral("lcdContador"));
+        lcdContador->setGeometry(QRect(310, 80, 64, 23));
+        QFont font2;
+        font2.setPointSize(12);
+        lcdContador->setFont(font2);
+        lcdContador->setFrameShape(QFrame::Box);
+        lcdContador->setFrameShadow(QFrame::Plain);
+        lcdContador->setSegmentStyle(QLCDNumber::Flat);
         HashcionaryClass->setCentralWidget(centralWidget);
         menuBar = new QMenuBar(HashcionaryClass);
         menuBar->setObjectName(QStringLiteral("menuBar"));
-        menuBar->setGeometry(QRect(0, 0, 389, 21));
+        menuBar->setGeometry(QRect(0, 0, 396, 21));
         menuArquivo = new QMenu(menuBar);
         menuArquivo->setObjectName(QStringLiteral("menuArquivo"));
         menuSobre = new QMenu(menuBar);
@@ -117,6 +137,7 @@ public:
         label->setText(QApplication::translate("HashcionaryClass", "Hashcion\303\241rio", Q_NULLPTR));
         browserSignificado->setPlaceholderText(QApplication::translate("HashcionaryClass", "Significado.", Q_NULLPTR));
         pushButton->setText(QApplication::translate("HashcionaryClass", "Sair", Q_NULLPTR));
+        labelContador->setText(QApplication::translate("HashcionaryClass", "Contador de buscas: ", Q_NULLPTR));
         menuArquivo->setTitle(QApplication::translate("HashcionaryClass", "Arquivo", Q_NULLPTR));
         menuSobre->setTitle(QApplication::translate("HashcionaryClass", "Sobre", Q_NULLPTR));
     } // retranslateUi

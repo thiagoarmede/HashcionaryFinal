@@ -79,8 +79,7 @@ int Hashing::buscaRegistro(string pal, FILE *fp, int *count) {
 		contador = 2;
 		fseek(fp, pos2 * sizeof(Palavra), SEEK_SET);
 
-		while (aux->getExistente() == true && aux->getChave() != palRetorna->getChave()) {
-			
+		while (aux->getExistente() == true) {
 			if (pos2 == pos1)
 				return -1;
 			if (aux->getChave() == palRetorna->getChave())
