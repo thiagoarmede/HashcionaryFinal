@@ -64,18 +64,6 @@ bool eliminaRegistro(string pal, FILE *fp) {
 */
 
 
-////////////////função em stand-by/////////////
-/*string listaArquivo(FILE *fp) {
-	if (!fp)return;
-	
-	rewind(fp);
-
-	while (!feof(fp))
-	{
-
-	}
-}*/
-
 void preencheArquivo(FILE *fp) {
 	Palavra *pal = new Palavra();
 	fp = fopen("Tabela.bin", "wb+");

@@ -5,8 +5,9 @@ JanelaInsercao::JanelaInsercao(QWidget *parent)
 	: QWidget(parent)
 {
 	ui.setupUi(this);
-
+	this->popup = new popup1();
 	QObject::connect(ui.InsereBotaoInserir, SIGNAL(clicked()), this, SLOT(inserePalavra()));
+	QObject::connect(ui.InsereBotaoVoltar, SIGNAL(clicked()), this, SLOT(close()));
 }
 
 JanelaInsercao::~JanelaInsercao()
@@ -55,6 +56,7 @@ int JanelaInsercao::defineInsercao(Palavra* pal, FILE *fp, int *count) {
 	if (aux->getExistente() != true) {
 		fseek(fp, -sizeof(Palavra), SEEK_CUR);
 		fwrite(pal, sizeof(Palavra), 1, fp);
+		*count = contador = 1;
 		return pos1;
 	}
 	else {		//Segundo hashing caso a primeira posição não esteja vazia
@@ -62,14 +64,13 @@ int JanelaInsercao::defineInsercao(Palavra* pal, FILE *fp, int *count) {
 		contador = 2;
 
 		fseek(fp, pos2 * sizeof(Palavra), SEEK_SET);
-		fread(aux, sizeof(Palavra), 1, fp);
-
 		while (aux->getExistente() == true) {
 			if (pos2 == pos1)
 				return -2;
 			if (aux->getChave() == pal->getChave())
 				return -1;
-
+			
+			fread(aux, sizeof(Palavra), 1, fp);
 			pos2 = (pos2 + h->funcaoHash2(pal)) % TAM_TABELA;
 		
 			fseek(fp, pos2 * sizeof(Palavra), SEEK_SET);
@@ -81,12 +82,13 @@ int JanelaInsercao::defineInsercao(Palavra* pal, FILE *fp, int *count) {
 	return pos2;
 }
 
+
 void JanelaInsercao::inserePalavra(){
 	Palavra *palavraAInserir = new Palavra(this->getPalavra().toStdString(), this->getSignificado().toStdString());
 	FILE *fp;
 	int pos1, pos2, deslocamento, count;
 	Hashing *h = new Hashing();
-
+	
 
 	pos1 = h->funcaoHash1(palavraAInserir);
 	deslocamento = h->funcaoHash2(palavraAInserir);
@@ -98,6 +100,7 @@ void JanelaInsercao::inserePalavra(){
 
 	if (posicao < 0) {
 		std::cout << "problema na insercao" << endl;
+		mostraPopupNaoInseriu();
 		return;
 	}
 
@@ -118,7 +121,7 @@ void JanelaInsercao::inserePalavra(){
 	aux3 = new Palavra();
 
 	while (i + j < count) {
-		/////////escolhendo o termo baseado no i.
+		/////////escolhendo o termo baseado no i.//////////////
 		if (i == 1) {		//lendo primeiro elemento após o hashing.
 			fseek(fp, pos1 * sizeof(Palavra), SEEK_SET);
 			fread(aux2, sizeof(Palavra), 1, fp);
@@ -126,9 +129,9 @@ void JanelaInsercao::inserePalavra(){
 			fseek(fp, pos1 * sizeof(Palavra), SEEK_SET);
 			for (int k = 1; k < i; k++) {
 					pos2 = (pos2 + deslocamento) % TAM_TABELA;
-					fseek(fp, pos2 * sizeof(Palavra), SEEK_SET);
 			}
 			//fseek(fp, pos1 *(j * sizeof(Palavra)), SEEK_SET);
+			fseek(fp, pos2 * sizeof(Palavra), SEEK_SET);
 			fread(aux2, sizeof(Palavra), 1, fp);
 		}
 		
@@ -137,52 +140,50 @@ void JanelaInsercao::inserePalavra(){
 		deslocamentoAux = h->funcaoHash2(aux2);
 		posaux2 = posaux;
 
-		///////////deslocando o termo baseado em j
-
-		//fseek(fp, -sizeof(Palavra), SEEK_CUR);
-		
+		///////////deslocando o termo baseado em j///////////////		
 		if (j == 1) {
 			fseek(fp, posaux * sizeof(Palavra), SEEK_SET);
 			fread(aux3, sizeof(Palavra), 1, fp);
-			if (aux3->getExistente() != true) {
-				fseek(fp, -sizeof(Palavra), SEEK_SET);
-				fwrite(aux2, sizeof(Palavra), 1, fp);
-
+		}else{
+			fseek(fp, posaux * sizeof(Palavra), SEEK_SET);
+			for (int k = 1; k < j; k++) {
+				posaux2 = (posaux2 + deslocamentoAux) % TAM_TABELA;
 			}
-
-
-
+			fseek(fp, posaux2 * sizeof(Palavra), SEEK_SET);
+			fread(aux3, sizeof(Palavra), 1, fp);
 		}
 
-		/*
-		if (j == 1)
-			posaux = h->funcaoHash1(aux2);
-		else
-			posaux += (j * h->funcaoHash2(aux2));
-		if (posaux >= 97)
-			posaux = posaux - 96;
-		*/
-
-		fseek(fp, posaux * sizeof(Palavra), SEEK_SET);
-		fread(aux3, sizeof(Palavra), 1, fp);
-
-		if (aux3->getExistente() == false) {
+		if (aux3->getExistente() == false) {		//trocando posições dos elementos.
 			fseek(fp, -sizeof(Palavra), SEEK_CUR);
 			fwrite(aux2, sizeof(Palavra), 1, fp);
-			fseek(fp, posaux * sizeof(Palavra), SEEK_SET);
+			fseek(fp, pos2 * sizeof(Palavra), SEEK_SET);
 			fwrite(palavraAInserir, sizeof(Palavra), 1, fp);
 			break;
-		}
-		else {
-			if (i + j == (count - 1)) {
+		}else {
+			if (i + j == (count)) {
 				i++;
 				j = 1;
-			} else {
+			}else 
 				j++;
-			}
 		}
-	}
 
+
+	}
+	mostraPopupInseriu();
 	delete(palavraAInserir);
 	fclose(fp);
+}
+
+void JanelaInsercao::mostraPopupInseriu() {
+	popup->findChild<QLabel*>("labelMensagem")->setText("Palavra inserida com sucesso!");
+	popup->show();
+	ui.InsereLinhaPalavra->clear();
+	ui.InsereMostraTexto->clear();
+}
+
+void JanelaInsercao::mostraPopupNaoInseriu() {
+	popup->findChild<QLabel*>("labelMensagem")->setText("Impossivel inserir!");
+	popup->show();
+	ui.InsereLinhaPalavra->clear();
+	ui.InsereMostraTexto->clear();
 }

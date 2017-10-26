@@ -47,6 +47,10 @@ public:
         if (HashcionaryClass->objectName().isEmpty())
             HashcionaryClass->setObjectName(QStringLiteral("HashcionaryClass"));
         HashcionaryClass->resize(389, 365);
+        QIcon icon;
+        icon.addFile(QStringLiteral("../dictionary1600.png"), QSize(), QIcon::Normal, QIcon::Off);
+        HashcionaryClass->setWindowIcon(icon);
+        HashcionaryClass->setDocumentMode(false);
         actionInserir_palavra = new QAction(HashcionaryClass);
         actionInserir_palavra->setObjectName(QStringLiteral("actionInserir_palavra"));
         actionExcluir_palavra = new QAction(HashcionaryClass);

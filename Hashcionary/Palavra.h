@@ -15,6 +15,8 @@ public:
 	string getSignificado();
 	bool getExistente();
 	void setExistente(bool);
+	void setPalavra(string);
+	void setSignificado(string);
 private:
 	string chave;
 	string significado;

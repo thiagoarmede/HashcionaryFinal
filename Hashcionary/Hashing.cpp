@@ -45,46 +45,56 @@ int Hashing::funcaoHash2(Palavra *pal) {
 	return MAIOR_PRIMO - (valor % MAIOR_PRIMO);
 }
 
-int Hashing::buscaRegistro(string pal, FILE *fp) {
-	int pos1, pos2, contador, deslocamento;
-	Palavra *aux, *palRecupera, *palRetorno;
+int Hashing::buscaRegistro(string pal, FILE *fp, int *count) {
+	Hashing *h = new Hashing();
+	int pos1;
+	int pos2;
+	int contador;
+	Palavra *aux = new Palavra();
+	Palavra *palRetorna = new Palavra(pal);
+
+	/*
+	Função retornará -3 caso o arquivo não exista ou não esteja aberto.
+	Função retornará -1 caso o elemento nao exista na tabela
+	*/
+	pos1 = h->funcaoHash1(palRetorna);
 
 	if (!fp) {
 		return -3; //tabela inexistente, arquivo invalido
 	}
 
-	aux = new Palavra();
-	palRecupera = new Palavra(pal);
-	pos1 = funcaoHash1(palRecupera);
+	//leitura do arquivo após o primeiro hashing.
 
 	fseek(fp, pos1 * sizeof(Palavra), SEEK_SET);
 	fread(aux, sizeof(Palavra), 1, fp);
 
-	//Hashing Duplo
+	//consulta se posição está vazia para inserção
+
 	if (aux->getChave() == pal) {
+		*count = contador =  1;
 		return pos1;
 	}
-	else {
-		deslocamento = funcaoHash2(palRecupera);
-		pos2 = pos1 + deslocamento;
-		if (pos2 >= 97) {
-			pos2 = pos2 - 96;
-		}
+	else {		//Segundo hashing caso a primeira posição não esteja vazia
+		pos2 = (pos1 + h->funcaoHash2(palRetorna)) % TAM_TABELA;
 		contador = 2;
 		fseek(fp, pos2 * sizeof(Palavra), SEEK_SET);
-		fread(aux, sizeof(Palavra), 1, fp);
-		while (aux->getChave() != pal) {
-			contador++;
-			if (pos2 == pos1) //Percorreu toda a tabela e não encontrou o registro.
-				return -2;
-			if (aux->getChave() == pal) //Achou o registro, retorna a posição
+
+		while (aux->getExistente() == true && aux->getChave() != palRetorna->getChave()) {
+			
+			if (pos2 == pos1)
+				return -1;
+			if (aux->getChave() == palRetorna->getChave())
 				return pos2;
-			pos2 += deslocamento;
-			if (pos2 >= 97) {
-				pos2 = pos2 - 96;
-			}
+
+			fread(aux, sizeof(Palavra), 1, fp);
+			pos2 = (pos2 + h->funcaoHash2(palRetorna)) % TAM_TABELA;
+
 			fseek(fp, pos2 * sizeof(Palavra), SEEK_SET);
 			fread(aux, sizeof(Palavra), 1, fp);
+			*count = ++contador;
 		}
 	}
+
+	return -1;
 }
+

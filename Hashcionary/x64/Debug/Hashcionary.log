@@ -1,3 +1,12 @@
-﻿  JanelaInsercao.cpp
+﻿  Moc'ing Hashcionary.h...
+  moc_Hashcionary.cpp
 c:\users\thiag\source\repos\hashcionary\hashcionary\Hashing.h(14): warning C4091: 'static ': ignorado à esquerda de 'Hashing' quando nenhuma variável é declarada
+  Hashcionary.cpp
+c:\users\thiag\source\repos\hashcionary\hashcionary\Hashing.h(14): warning C4091: 'static ': ignorado à esquerda de 'Hashing' quando nenhuma variável é declarada
+  JanelaElimina.cpp
+c:\users\thiag\source\repos\hashcionary\hashcionary\Hashing.h(14): warning C4091: 'static ': ignorado à esquerda de 'Hashing' quando nenhuma variável é declarada
+  main.cpp
+c:\users\thiag\source\repos\hashcionary\hashcionary\Hashing.h(14): warning C4091: 'static ': ignorado à esquerda de 'Hashing' quando nenhuma variável é declarada
+  Gerando Código...
+c:\users\thiag\source\repos\hashcionary\hashcionary\main.cpp(85): warning C4700: variável local não inicializada 'fp' usada
   Hashcionary.vcxproj -> C:\Users\thiag\source\repos\Hashcionary\x64\Debug\Hashcionary.exe

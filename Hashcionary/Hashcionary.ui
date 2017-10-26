@@ -13,6 +13,13 @@
   <property name="windowTitle">
    <string>Hashcionário</string>
   </property>
+  <property name="windowIcon">
+   <iconset>
+    <normaloff>../dictionary1600.png</normaloff>../dictionary1600.png</iconset>
+  </property>
+  <property name="documentMode">
+   <bool>false</bool>
+  </property>
   <widget class="QWidget" name="centralWidget">
    <widget class="QLineEdit" name="linhaBusca">
     <property name="geometry">

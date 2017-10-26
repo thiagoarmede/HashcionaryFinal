@@ -42,5 +42,13 @@ void Palavra::setExistente(bool exis) {
 	this->existente = exis;
 }
 
+void Palavra::setPalavra(string pal) {
+	this->chave = pal;
+}
+
+void Palavra::setSignificado(string sig) {
+	this->significado = sig;
+}
+
 //Funções pra inserção da palavra no arquivo
 

@@ -33,6 +33,9 @@ public:
         if (JanelaLista->objectName().isEmpty())
             JanelaLista->setObjectName(QStringLiteral("JanelaLista"));
         JanelaLista->resize(669, 728);
+        QIcon icon;
+        icon.addFile(QStringLiteral("../dictionary1600.png"), QSize(), QIcon::Normal, QIcon::Off);
+        JanelaLista->setWindowIcon(icon);
         label = new QLabel(JanelaLista);
         label->setObjectName(QStringLiteral("label"));
         label->setGeometry(QRect(230, 10, 201, 31));

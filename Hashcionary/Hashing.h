@@ -10,6 +10,6 @@ public:
 	~Hashing();
 	int funcaoHash1(Palavra *);
 	int funcaoHash2(Palavra *);
-	int buscaRegistro(string, FILE*);
+	int buscaRegistro(string, FILE*, int*);
 };
 

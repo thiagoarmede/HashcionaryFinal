@@ -5,6 +5,7 @@
 #include <iostream>
 #include "Palavra.h"
 #include "Hashing.h"
+#include "popup1.h"
 
 using namespace std;
 
@@ -19,6 +20,9 @@ public:
 	QString getSignificado();
 	//funções para inserção da palavra
 	int defineInsercao(Palavra *, FILE *, int *);
+	popup1 *popup;
+	void mostraPopupInseriu();
+	void mostraPopupNaoInseriu();
 public slots:
 	void inserePalavra();
 private:

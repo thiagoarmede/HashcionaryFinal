@@ -16,6 +16,10 @@
   <property name="windowTitle">
    <string>JanelaElimina</string>
   </property>
+  <property name="windowIcon">
+   <iconset>
+    <normaloff>../dictionary1600.png</normaloff>../dictionary1600.png</iconset>
+  </property>
   <widget class="QLineEdit" name="linhaElimina">
    <property name="geometry">
     <rect>
