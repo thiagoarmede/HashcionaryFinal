@@ -33,7 +33,7 @@ int JanelaInsercao::defineInsercao(Palavra* pal, FILE *fp, int *count) {
 	Hashing *h = new Hashing();
 	int pos1 = h->funcaoHash1(pal);
 	int pos2;
-	int contador;
+	int contador = 1;
 	Palavra *aux = new Palavra();
 
 	/*
@@ -61,24 +61,21 @@ int JanelaInsercao::defineInsercao(Palavra* pal, FILE *fp, int *count) {
 	}
 	else {		//Segundo hashing caso a primeira posição não esteja vazia
 		pos2 = (pos1 + h->funcaoHash2(pal)) % TAM_TABELA;
-		contador = 2;
-
 		fseek(fp, pos2 * sizeof(Palavra), SEEK_SET);
 		while (aux->getExistente() == true) {
 			if (pos2 == pos1)
 				return -2;
 			if (aux->getChave() == pal->getChave())
 				return -1;
-			
+			contador++;
+			*count = contador;
 			fread(aux, sizeof(Palavra), 1, fp);
 			pos2 = (pos2 + h->funcaoHash2(pal)) % TAM_TABELA;
-		
+
 			fseek(fp, pos2 * sizeof(Palavra), SEEK_SET);
 			fread(aux, sizeof(Palavra), 1, fp);
-			contador++;
 		}
 	}
-	*count = contador;
 	return pos2;
 }
 
@@ -169,9 +166,8 @@ void JanelaInsercao::inserePalavra(){
 
 
 	}
-
-	mostraPopupInseriu();
 	fclose(fp);
+	mostraPopupInseriu();
 }
 
 void JanelaInsercao::mostraPopupInseriu() {

@@ -138,6 +138,19 @@
      <enum>QLCDNumber::Flat</enum>
     </property>
    </widget>
+   <widget class="QPushButton" name="botaoLimpa">
+    <property name="geometry">
+     <rect>
+      <x>210</x>
+      <y>330</y>
+      <width>81</width>
+      <height>31</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Limpar Arquivo</string>
+    </property>
+   </widget>
   </widget>
   <widget class="QMenuBar" name="menuBar">
    <property name="geometry">

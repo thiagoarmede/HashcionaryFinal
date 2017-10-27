@@ -10,8 +10,8 @@ JanelaLista::JanelaLista(QWidget *parent)
 
 JanelaLista::~JanelaLista()
 {
-	this->close();
-	delete(ui.listaArquivo);
+	delete ui.listaArquivo;
+	delete ui.botaoListar;
 }
 
 
@@ -19,23 +19,22 @@ JanelaLista::~JanelaLista()
 
 void JanelaLista::listaPalavras() {
 	Palavra *aux = new Palavra();
-	FILE *fd1;
-	char num[5];
-	std::string lista = "\n";
-	fd1 = fopen("Tabela.bin", "rb+");
+	char num[3];
+	string lista;
+	fstream ifs;
+	ifs.flush();
+	ifs.open("Tabela.bin", fstream::binary | fstream::in | fstream::out);
 
-	for (int i = 0; i < TAM_TABELA; i++) {
-		fread(aux, sizeof(Palavra), 1, fd1);
-
-		lista += itoa(i, num, 10);
-		lista += ": ";
-		lista += aux->getChave();
-		lista += "\n";
-		lista += aux->getSignificado();
-		lista += "\n\n";
+	for (int i = 0; i< TAM_TABELA; i++) {
+		ifs.read((char*)aux, sizeof(Palavra));		//fread(aux, sizeof(Palavra), 1, fd1);
+		lista.append(itoa(i, num, 10));
+		lista.append(": ");
+		lista.append(aux->getChave());
+		lista.append("\n");
+		lista.append(aux->getSignificado());
+		lista.append("\n\n");
 	}
 
-	fclose(fd1);
-
+	ifs.close();
 	ui.listaArquivo->setText(QString::fromStdString(lista));
 }

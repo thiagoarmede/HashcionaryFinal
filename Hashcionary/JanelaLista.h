@@ -1,8 +1,11 @@
 #pragma once
-
 #include <QWidget>
 #include "ui_JanelaLista.h"
 #include "Palavra.h"
+#include <iostream>
+#include <cstdio>
+#include <cstdlib>
+#include <fstream>
 #define TAM_TABELA 97
 #define MAIOR_PRIMO 89
 

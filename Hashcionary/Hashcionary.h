@@ -14,12 +14,14 @@ class Hashcionary : public QMainWindow
 
 public:
 	Hashcionary(QWidget *parent = Q_NULLPTR);
+	~Hashcionary();
 	void setJanelaInsercao(JanelaInsercao *);
 	void setJanelaLista(JanelaLista *);
 	void popupAchou();
 	void popupNaoAchou();
 	void popupArquivoNaoEncontrado();
 	popup1 *popup;
+	FILE *fp;
 public slots:
 	void on_botaoBuscar_clicked();
 	void abreInsercao();
@@ -27,6 +29,7 @@ public slots:
 	void saiPrograma();
 	void abreExclusao();
 	void recuperaRegistro();
+	void limpaArquivo();
 private:
 	Ui::HashcionaryClass ui;
 	JanelaInsercao *janelaInsercao;

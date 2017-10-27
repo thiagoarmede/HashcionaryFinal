@@ -5,14 +5,22 @@ Hashcionary::Hashcionary(QWidget *parent)
 	: QMainWindow(parent)
 {
 	ui.setupUi(this);
-
 	popup = new popup1();
+	this->janelaInsercao = new JanelaInsercao();
+	this->janelaLista = new JanelaLista();
 	QObject::connect(ui.botaoBuscar, SIGNAL(clicked()), this, SLOT(recuperaRegistro()));
 	QObject::connect(ui.actionInserir_palavra, SIGNAL(triggered()), this, SLOT(abreInsercao()));
 	QObject::connect(ui.actionListar_dicionario, SIGNAL(triggered()), this, SLOT(abreLista()));
 	QObject::connect(ui.actionExcluir_palavra, SIGNAL(triggered()), this, SLOT(abreExclusao()));
 	QObject::connect(ui.pushButton, SIGNAL(clicked()), this, SLOT(saiPrograma()));
 	QObject::connect(ui.actionSair, SIGNAL(triggered()), this, SLOT(saiPrograma()));
+	QObject::connect(ui.botaoLimpa, SIGNAL(clicked()), this, SLOT(limpaArquivo()));
+
+
+}
+
+Hashcionary::~Hashcionary() {
+
 }
 
 //Getters e Setters
@@ -57,7 +65,6 @@ void Hashcionary::recuperaRegistro(){
 
 void Hashcionary::popupAchou() {
 	popup->findChild<QLabel*>("labelMensagem")->setText("Palavra Encontrada!");
-	ui.linhaBusca->clear();
 	popup->show();
 }
 
@@ -97,4 +104,18 @@ void Hashcionary::abreExclusao() {
 
 void Hashcionary::saiPrograma() {
 	this->close();
+}
+
+void Hashcionary::limpaArquivo() {
+	this->fp = fopen("Tabela.bin", "w+b");
+	Palavra *pal = new Palavra();
+
+	for (int i = 0; i < TAM_TABELA; i++) {
+		fwrite(pal, sizeof(Palavra), 1, this->fp);
+	}
+	
+	popup->findChild<QLabel*>("labelMensagem")->setText("Arquivo limpo!");
+	popup->show();
+
+	fclose(fp);
 }

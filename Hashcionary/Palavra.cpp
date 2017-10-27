@@ -10,14 +10,15 @@ Palavra::Palavra(string palavra, string significado) {
 
 Palavra::Palavra(string palavra) {
 	this->chave = palavra;
+	this->significado = "----------------------------------------------";
 	this->existente = true;
 }
 
 Palavra::Palavra()
 {
 	this->existente = false;
-	this->chave = "INEXISTENTE";
-	this->significado = "INEXISTENTE";
+	this->chave = "----------------------------------------------";
+	this->significado = "----------------------------------------------";
 }
 
 Palavra::~Palavra()
